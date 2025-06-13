@@ -13,7 +13,7 @@ This file contains the instructions for running the NVIDIA NeMo LLama2-70B LoRA 
 ### 3.1 Build the container
 Replace `<docker/registry>` with your container registry and build:
 ```bash
-$ git clone https://github.com/masamokkulu/mlperf_training.git && cd llama2_70b_lora_v4.1/implementations
+$ git clone https://github.com/masamokkulu/mlperf_training.git && cd mlperf_training/llama2_70b_lora_v4.1/implementations
 $ docker build -t <docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
 ...
 $ docker push <docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
@@ -24,8 +24,8 @@ $ docker push <docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
 This benchmark uses the [GovReport](https://gov-report-data.github.io/) dataset.
 First, prepare the singularity container to be used for verification.
 ```bash
-$ cd $HOME && git clone https://github.com/masamokkulu/mlperf_training.git && cd llama2_70b_lora_v4.1/implementations
-$ cd llama2_70b_lora_v4.1/implementations
+$ cd $HOME && git clone https://github.com/masamokkulu/mlperf_training.git
+$ cd mlperf_training/llama2_70b_lora_v4.1/implementations
 $ export work_dir=$(pwd)
 $ module load singularitypro && srun -p <PARTITION NAME> singularity pull mlperf-nvidia.sif docker://<docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
 ...
