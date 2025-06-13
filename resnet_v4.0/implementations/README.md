@@ -60,8 +60,8 @@ $ docker push <REPO NAME>/nvidia_rn50_mx:latest
 1. Prepare the container
 * **This must be done in a docker-enabled bastion**
 ```bash
-$ cd $HOME && git clone https://github.com/mlcommons/training_results_v4.0.git
-$ export work_dir="$HOME/training_results_v4.0/NVIDIA/benchmarks/resnet/implementations/h200_ngc24.04_mxnet" && cd $work_dir
+$ cd $HOME && git clone https://github.com/masamokkulu/mlperf_training.git
+$ export work_dir="$HOME/mlperf_training/resnet_v4.0/implementations" && cd $work_dir
 $ docker build . -t <REPO NAME>/mlperf-nvidia:nvidia_rn50_mx
 ...
 $ docker push <REPO NAME>/mlperf-nvidia:nvidia_rn50_mx
@@ -69,8 +69,8 @@ $ docker push <REPO NAME>/mlperf-nvidia:nvidia_rn50_mx
 2. Run benchmark
 * On GMO GPU Cloud
 ```bash
-$ cd $HOME && git clone https://github.com/mlcommons/training_results_v4.0.git
-$ export work_dir="$HOME/training_results_v4.0/NVIDIA/benchmarks/resnet/implementations/h200_ngc24.04_mxnet" && cd $work_dir
+$ cd $HOME && git clone https://github.com/masamokkulu/mlperf_training.git
+$ export work_dir="$HOME/mlperf_training/resnet_v4.0/implementations" && cd $work_dir
 $ srun -p part-cpu singularity pull mlperf-nvidia.sif docker://<REPO NAME>/mlperf-nvidia:nvidia_rn50_mx
 $ source config_DGXH100.sh
 $ sbatch -p <PARTITION NAME> -G 8 -N $DGXNNODES run.sub
