@@ -1,4 +1,4 @@
-## Requirements
+# 1. Requirements
 * [MXNet 24.04-py3 NGC container](https://ngc.nvidia.com/catalog/containers/nvidia:mxnet)
 * [GMO GPU Cloud](https://gpucloud.gmo/)
 
