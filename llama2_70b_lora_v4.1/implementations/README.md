@@ -45,7 +45,8 @@ $ srun -p <PARTITION NAME> -G 8 singularity exec --nv \
   python scripts/download_model.py --model_dir /data/model
 ...
 ```
-then continue with the conversion of the dataset and model:
+then, continue with the conversion of the dataset and model:
+* NOTE: `/scratch` must be large enough (TB ~)
 ```bash
 $ srun -p <PARTITION NAME> -G 8 singularity exec --nv \
   -B $work_dir/data:/data \
@@ -54,7 +55,8 @@ $ srun -p <PARTITION NAME> -G 8 singularity exec --nv \
 ...
 $ srun -p <PARTITION NAME> -G 8 singularity exec --nv \
   -B $work_dir/data:/data \
-  -B /scratch:/tmp \
+  -B /scratch/dir1:/tmp \
+  -B /scratch/dir2:/var/tmp \
   mlperf-nvidia.sif \
   python scripts/convert_model.py \
   --input_name_or_path=/data/model \
@@ -63,7 +65,6 @@ $ srun -p <PARTITION NAME> -G 8 singularity exec --nv \
 
 $ cd data/model && srun -p part-cpu find . -type f ! -name 'llama2-70b.nemo' -exec rm -f {} + && tar -xvf llama2-70b.nemo
 ```
-
 After conversion you should see the following files in the `/data` directory:
 ```bash
 gov_report/
