@@ -102,3 +102,18 @@ Every 384 sequences, CEIL(384 / global_batch_size) steps if 384 is not divisible
 
 ### Evaluation thoroughness
 Evaluation on the validation subset that consists of 173 examples
+
+## Known Issue
+#### `AssertionError: global batch size (8) is not divisible by micro batch size (4) times data parallel size (8)` @ `convert_model.py`
+Error due to global_batchsize not divisible by micro_batch*pararell. Please modify [megatron_llama_config.yaml](./scripts/megatron_llama_config.yaml) to adjust batch size.
+```
+model:
+  mcore_gpt: True
+  # specify micro_batch_size, global_batch_size, and model parallelism
+  # gradient accumulation will be done automatically based on data_parallel_size
+  micro_batch_size: 4 # limited by GPU memory 
+  global_batch_size: 8 # will use more micro batches to reach global batch size
+                     ^ increase 32 from 8
+```
+
+
