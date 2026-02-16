@@ -60,7 +60,6 @@ export WORK_DIR="/path/to/mlperf_training/llama2_70b_lora_v5.1/implementation" <
 export work_dir="/path/to/mlperf_training/llama2_70b_lora_v5.1/implementations" <<< path/to
 export CONT="" <<< <docker/registry>/mlperf-nvidia:<tag>
 ```
-* ``
 
 ### 4.2 Launch the training
 
