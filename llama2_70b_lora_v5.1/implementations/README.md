@@ -20,34 +20,20 @@ This file contains the instructions for running the NVIDIA NeMo LLama2-70B LoRA 
 Replace `<docker/registry>` with your container registry and build:
 
 ```bash
-docker build -t <docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
+$ docker build --network=host -t <docker/registry>/mlperf-nvidia:<tag> .
+...
+$ docker push <docker/registry>/mlperf-nvidia:<tag>
 ```
 
 ### 3.2 Download dataset and model
 
-This benchmark uses the [GovReport](https://gov-report-data.github.io/) dataset.
-
-Start the container, replacing `</path/to/dataset>` with the existing path to where you want to save the dataset and the model weights/tokenizer:
-
-```bash
-docker run -it --rm --gpus all --network=host --ipc=host --volume </path/to/dataset>:/data <docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
-# now you should be inside the container in the /workspace/ft-llm directory
-python scripts/download_dataset.py --data_dir /data/gov_report  # download dataset
-python scripts/download_model.py --model_dir /data/model  # download model checkpoint used for initialization; could take up to 30 minutes
-```
+This benchmark uses the [GovReport](https://gov-report-data.github.io/) dataset.  
+You can reuse the procedure for MLPerf LLaMA2 70B v4.1. Please refer to [this steps](../../llama2_70b_lora_v4.1/implementations#32-download-dataset-and-model).
 
 ### 3.3 Preprocess dataset and model
-
-Continue with the previous docker container running and convert dataset to numpy format:
-
-```bash
-python scripts/convert_dataset.py --data_dir /data/gov_report
-python scripts/convert_model.py --input_name_or_path=/data/model --output_path=/data/model/llama2-70b.nemo
-cd /data/model && find . -type f ! -name 'llama2-70b.nemo' -exec rm -f {} + && tar -xvf llama2-70b.nemo
-```
+You also can reuse the procedure for MLPerf LLaMA2 70B v4.1. Please refer to [this steps](../../llama2_70b_lora_v4.1/implementations#33-preprocess-dataset-and-model).
 
 After conversion you should see the following files in the `/data` directory:
-
 ```bash
 gov_report/
     train.npy
@@ -63,6 +49,21 @@ Exit the container.
 
 ## 4. Launch training
 
+### 4.1 Setup environment value
+Configure the following values according to your environment.
+* `config_XE9780_common.sh`
+```bash
+export WORK_DIR="/path/to/mlperf_training/llama2_70b_lora_v5.1/implementation" <<< path/to
+```
+* `config_XE9780_H200_1x8x1xtp2pp1cp1.sh`
+```bash
+export work_dir="/path/to/mlperf_training/llama2_70b_lora_v5.1/implementations" <<< path/to
+export CONT="" <<< <docker/registry>/mlperf-nvidia:<tag>
+```
+* ``
+
+### 4.2 Launch the training
+
 For training, we use Slurm with the Pyxis extension, and Slurm's MPI support to run our container.
 
 Navigate to the directory where `run.sub` is stored.
@@ -70,12 +71,8 @@ Navigate to the directory where `run.sub` is stored.
 The launch command structure:
 
 ```bash
-export DATADIR=</path/to/dataset>/gov_report # set correct </path/to/dataset>
-export MODEL=</path/to/dataset>/model # set correct </path/to/dataset>
-export LOGDIR=</path/to/output/dir> # set the place where the output logs will be saved
-export CONT=<docker/registry>/mlperf-nvidia:llama2_70b_lora-pyt
-source configs/config_DGXH100_1x8x4xtp4pp1cp1.sh  # select config and source it
-sbatch -N $DGXNNODES -t $WALLTIME run.sub  # you may be required to set --account and --partition here
+$ source config_XE9780_H200_1x8x1xtp2pp1cp1.sh  # select config and source it
+$ sbatch -p <PARTITION> -N $DGXNNODES -t $WALLTIME --gpus-per-node $DGXNGPU run.sub  # you may be required to set --account and --partition here
 ```
 
 ## 5. Evaluation
