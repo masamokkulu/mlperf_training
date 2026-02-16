@@ -1,5 +1,11 @@
 # training_results
-Script to run MLPerf training on GMO GPU Cloud
+Script to run MLPerf training on GMO GPU Cloud. We publish an optimized version of the upstream MLPerf implementation tailored for GMO GPU Cloud, with bugs and other issues removed.
+
+|  Benchmark  | Version | Runtime |
+|-----|-----|-----|
+| LLaMa2 70B | v4.1 | Singularity |
+| LLama2 70B | v5.1 | Pyxis/Enroot |
+| ResNet | v4.0 | Singularity |
 
 ## NOTICE
 Note that this repository was created with reference to
