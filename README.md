@@ -4,7 +4,7 @@ Script to run MLPerf training on GMO GPU Cloud. We publish an optimized version 
 |  Benchmark  | Version | Runtime |
 |-----|-----|-----|
 | LLaMa2 70B | v4.1 | Singularity |
-| LLama2 70B | v5.1 | Pyxis/Enroot |
+| LLaMa2 70B | v5.1 | Pyxis/Enroot |
 | ResNet | v4.0 | Singularity |
 
 ## NOTICE
