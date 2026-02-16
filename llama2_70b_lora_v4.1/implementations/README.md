@@ -8,6 +8,7 @@ This file contains the instructions for running the NVIDIA NeMo LLama2-70B LoRA 
 
 ## 2. Software Requirements
 - [GMO GPU Cloud](https://gpucloud.gmo/)
+- Singularity
 
 ## 3. Set up
 ### 3.1 Build the container
